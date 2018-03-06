@@ -5,18 +5,20 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
-      - 'mariadb_data:/bitnami'
+      - '/root/persistence/mariadb/mariadb_data:/bitnami'
   joomla:
     image: 'bitnami/joomla:latest'
-    labels:
-      kompose.service.type: nodeport
     ports:
       - '80:80'
       - '443:443'
     volumes:
-      - 'joomla_data:/bitnami'
+      - '/root/persistence/httpd/joomla_data:/bitnami'
+    environment:
+      - JOOMLA_USERNAME=admin
+      - JOOMLA_PASSWORD=admin
     depends_on:
       - mariadb
+
 volumes:
   mariadb_data:
     driver: local
